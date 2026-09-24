@@ -1,0 +1,3 @@
+[submodule "models/decision-tree"]
+	path = models/decision-tree
+	url = git@github.com:dzungntp/flow_classifier_dt_model.git
