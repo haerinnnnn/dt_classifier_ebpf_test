@@ -18,7 +18,7 @@
  *   -DBPF_MAP_LEGACY: legacy iproute2/tc ELF map definitions
  *   no define:        BTF/libbpf map definitions
  */
-#ifdef BPF_MAP_LEGACY 1
+#ifdef BPF_MAP_LEGACY 
 
 enum {
     PIN_NONE = 0,       /* Map is not pinned (ephemeral). */
@@ -40,7 +40,7 @@ struct bpf_elf_map {
 };
 
 #define BPF_MAP_PIN_NONE_VALUE PIN_NONE
-#define BPF_MAP_PIN_SHARED_VALUE PIN_GLOBAL_NSsed -i 's/\r$//' pi_deploy_cls_ifb.sh
+#define BPF_MAP_PIN_SHARED_VALUE PIN_GLOBAL_NS
 
 #define DECLARE_BPF_MAP_IMPL(name, map_type, key_type, value_type, entries, pin_mode) \
     struct bpf_elf_map SEC("maps") name = {                                  \

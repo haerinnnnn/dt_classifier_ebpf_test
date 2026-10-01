@@ -1,5 +1,5 @@
 BPF_CLANG ?= clang
-BPF_MAP_API ?= legacy
+BPF_MAP_API ?= libbpf
 ENABLE_IFB_REDIRECT ?= 0
 IFACE ?= eth0
 

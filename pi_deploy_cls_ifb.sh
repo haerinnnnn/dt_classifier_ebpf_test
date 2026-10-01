@@ -20,7 +20,7 @@ IFB_IFACE="${4:-ifb0}"
 IFB_RATE="${5:-${IFB_RATE:-100mbit}}"
 IFB_LEAF_LIMIT="${6:-${IFB_LEAF_LIMIT:-100}}"
 
-BPF_MAP_API="${BPF_MAP_API:-legacy}"
+BPF_MAP_API="${BPF_MAP_API:-libbpf}"
 case "$BPF_MAP_API" in
     legacy)
         MAP_CFLAGS=(-DBPF_MAP_LEGACY)
