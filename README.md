@@ -46,7 +46,7 @@ Build ingress with IFB redirect support:
 
 ```bash
 make clean
-make BPF_MAP_API=legacy ENABLE_IFB_REDIRECT=1
+make BPF_MAP_API=libbpf ENABLE_IFB_REDIRECT=1 ENABLE_DST_PRIORITY=1
 ```
 
 ## Local Deployment
@@ -63,7 +63,8 @@ supports BTF-style `.maps` declarations.
 ## Raspberry Pi / IFB Experiment
 
 ```bash
-BPF_MAP_API=legacy ./pi_deploy_cls_ifb.sh \
+BPF_MAP_API=libbpf ENABLE_IFB_REDIRECT=1 ENABLE_DST_PRIORITY=1 \
+    ./pi_deploy_cls_ifb.sh \
     phy0-ap0 eth0 root@192.168.3.2 ifb0 100mbit 100
 ```
 
@@ -77,6 +78,18 @@ IFB interface
 HTB bottleneck rate
 per-band pfifo packet limit
 ```
+
+The two experiment switches are independent:
+
+```text
+ENABLE_IFB_REDIRECT=0  bypass IFB and its controlled bottleneck
+ENABLE_IFB_REDIRECT=1  redirect through the IFB qdisc hierarchy
+ENABLE_DST_PRIORITY=0  place every parsed TCP/UDP flow in class 1:3
+ENABLE_DST_PRIORITY=1  place the configured destination in class 1:1
+```
+
+Use the same IFB rate, queue limit, traffic rates, packet length, and duration
+when comparing the priority-off and priority-on scenarios.
 
 The resulting queue hierarchy is:
 

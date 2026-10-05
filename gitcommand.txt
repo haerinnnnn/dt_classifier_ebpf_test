@@ -1,0 +1,45 @@
+=========================================
+      TỔNG HỢP LỆNH GIT CƠ BẢN
+=========================================
+
+1. CẤU HÌNH BAN ĐẦU (Chỉ cần làm 1 lần)
+-----------------------------------------
+git config --global user.name "Tên của bạn"  : Khai báo tên người dùng
+git config --global user.email "Email"       : Khai báo email
+git config --list                            : Xem lại các cấu hình đã cài đặt
+
+2. KHỞI TẠO & TẢI SOURCE CODE
+-----------------------------------------
+git init            : Khởi tạo một kho lưu trữ (repository) Git mới tại thư mục hiện tại
+git clone <url>     : Tải (copy) một repository từ server (GitHub, GitLab...) về máy
+
+3. KIỂM TRA & LƯU THAY ĐỔI (STAGING & COMMIT)
+-----------------------------------------
+git status                   : Kiểm tra trạng thái các file (đã sửa, thêm mới, bị xóa...)
+git add <tên_file>           : Thêm một file cụ thể vào khu vực chuẩn bị lưu (Staging Area)
+git add .                    : Thêm TẤT CẢ các file thay đổi vào Staging Area
+git commit -m "Nội dung"     : Lưu lại các thay đổi kèm theo lời nhắn (message)
+
+4. LÀM VIỆC VỚI NHÁNH (BRANCH)
+-----------------------------------------
+git branch                   : Xem danh sách các nhánh hiện có ở local
+git branch <tên_nhánh>       : Tạo một nhánh mới
+git checkout <tên_nhánh>     : Chuyển sang làm việc ở nhánh khác (có thể dùng: git switch)
+git checkout -b <tên_nhánh>  : Tạo nhánh mới và chuyển ngay sang nhánh đó
+git branch -d <tên_nhánh>    : Xóa một nhánh ở local
+git merge <tên_nhánh>        : Gộp code từ nhánh được chỉ định vào nhánh bạn đang đứng
+
+5. ĐỒNG BỘ VỚI SERVER (REMOTE)
+-----------------------------------------
+git remote add origin <url>  : Liên kết thư mục local với một kho lưu trữ trên mạng
+git push origin <tên_nhánh>  : Đẩy các commit từ máy tính lên server
+git pull origin <tên_nhánh>  : Tải code mới nhất từ server về và gộp (merge) vào máy
+git fetch                    : Tải thông tin mới nhất từ server về (nhưng chưa tự động merge)
+
+6. XEM LỊCH SỬ & HOÀN TÁC (UNDO)
+-----------------------------------------
+git log                      : Xem lịch sử các lần commit
+git log --oneline            : Xem lịch sử commit rút gọn (mỗi commit 1 dòng)
+git reset HEAD <tên_file>    : Hủy lệnh "git add" của một file (bỏ khỏi Staging Area)
+git checkout -- <tên_file>   : Hủy toàn bộ thay đổi của file, đưa file về trạng thái gốc
+git restore <tên_file>       : Tương tự như trên (dành cho các bản Git mới)

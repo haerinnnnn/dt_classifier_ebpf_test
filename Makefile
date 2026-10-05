@@ -1,6 +1,7 @@
 BPF_CLANG ?= clang
 BPF_MAP_API ?= libbpf
 ENABLE_IFB_REDIRECT ?= 0
+ENABLE_DST_PRIORITY ?= 1
 IFACE ?= eth0
 
 ifeq ($(BPF_MAP_API),legacy)
@@ -12,7 +13,9 @@ $(error BPF_MAP_API must be either "legacy" or "libbpf")
 endif
 
 CFLAGS := -O2 -g -target bpf -Wall -Wextra $(MAP_CFLAGS)
-INGRESS_CFLAGS := $(CFLAGS) -DENABLE_IFB_REDIRECT=$(ENABLE_IFB_REDIRECT)
+INGRESS_CFLAGS := $(CFLAGS) \
+	-DENABLE_IFB_REDIRECT=$(ENABLE_IFB_REDIRECT) \
+	-DENABLE_DST_PRIORITY=$(ENABLE_DST_PRIORITY)
 
 INGRESS_SRC := cls_dt_ingress.c
 INGRESS_OBJ := cls_dt_ingress.o

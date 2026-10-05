@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# eBPF build artifacts
+*.o
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Editor and backup files
+*.swp
+*~
+*.save
+
+# Experiment output
+output_*/
+*.pcap
+

@@ -11,11 +11,15 @@
 #include "cls_dt.h"
 
 #ifndef ENABLE_IFB_REDIRECT
-#define ENABLE_IFB_REDIRECT 0
+#define ENABLE_IFB_REDIRECT 1
+#endif
+
+#ifndef ENABLE_DST_PRIORITY
+#define ENABLE_DST_PRIORITY 1
 #endif
 
 /* Destination-IP classifier retained as the PRIO baseline experiment. */
-static const __u32 priority_dst_ip = bpf_htonl(IP4(192, 168, 0, 127));
+static const __u32 priority_dst_ip = bpf_htonl(IP4(192, 168, 3, 195));
 
 #if INDIVIDUAL_PACKET_TRACING
 DECLARE_SHARED_BPF_MAP(
@@ -214,10 +218,15 @@ int classify_flow(struct __sk_buff *skb)
 #endif
 
     struct __sk_buff *volatile skb_ptr = skb;
+#if ENABLE_DST_PRIORITY
     if (iph->daddr == priority_dst_ip)
         skb_ptr->priority = TC_CLASS_HIGH_PRIORITY;
     else
         skb_ptr->priority = TC_CLASS_BEST_EFFORT;
+#else
+    /* Baseline mode: all traffic shares the best-effort queue. */
+    skb_ptr->priority = TC_CLASS_BEST_EFFORT;
+#endif
 
 #if ENABLE_IFB_REDIRECT
     __u32 ifb_key = 0;

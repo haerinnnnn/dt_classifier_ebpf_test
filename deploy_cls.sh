@@ -4,6 +4,7 @@ set -euo pipefail
 # Usage: BPF_MAP_API=legacy ./deploy_cls.sh [interface]
 IFACE="${1:-eth0}"
 BPF_MAP_API="${BPF_MAP_API:-legacy}"
+ENABLE_DST_PRIORITY="${ENABLE_DST_PRIORITY:-1}"
 
 case "$BPF_MAP_API" in
     legacy)
@@ -18,12 +19,23 @@ case "$BPF_MAP_API" in
         ;;
 esac
 
+case "$ENABLE_DST_PRIORITY" in
+    0|1) ;;
+    *)
+        echo "ERROR: ENABLE_DST_PRIORITY must be 0 or 1." >&2
+        exit 2
+        ;;
+esac
+
 echo "Interface   : $IFACE"
 echo "BPF map API: $BPF_MAP_API"
+echo "DST priority: $ENABLE_DST_PRIORITY"
 
 echo "[1/5] Compiling eBPF programs..."
 clang -O2 -g -target bpf -Wall -Wextra "${MAP_CFLAGS[@]}" \
-    -DENABLE_IFB_REDIRECT=0 -c cls_dt_ingress.c -o cls_dt_ingress.o
+    -DENABLE_IFB_REDIRECT=0 \
+    -DENABLE_DST_PRIORITY="$ENABLE_DST_PRIORITY" \
+    -c cls_dt_ingress.c -o cls_dt_ingress.o
 clang -O2 -g -target bpf -Wall -Wextra "${MAP_CFLAGS[@]}" \
     -c cls_dt_egress.c -o cls_dt_egress.o
 
